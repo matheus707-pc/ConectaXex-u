@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Conecta Xexéu - Serviços da Cidade</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- MENU MOBILE -->
+    <div class="menu-overlay" id="menuOverlay"></div>
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="close-menu" id="closeMenu"><i class="fas fa-times"></i></div>
+        <div class="flex flex-col mt-4">
+            <div class="menu-item"><a href="https://transparencia.xexeu.pe.gov.br" target="_blank" rel="noopener noreferrer"><i class="fas fa-chart-line w-5"></i> Transparência</a></div>
+            <div class="menu-item"><span id="mobileNoticias"><i class="fas fa-newspaper w-5"></i> Notícias</span></div>
+            <div class="menu-item"><a href="https://site.xexeu.pe.gov.br/ouvidoria-municipal/" target="_blank" rel="noopener noreferrer"><i class="fas fa-headset w-5"></i> Ouvidoria</a></div>
+            <div class="menu-item"><span id="mobilePerfil"><i class="fas fa-user-circle w-5"></i> Meu Perfil</span></div>
+            <div class="menu-item"><span id="mobileConfig"><i class="fas fa-cog w-5"></i> Configurações</span></div>
+        </div>
+    </div>
+
+    <!-- MODAL DE PESQUISA -->
+    <div id="searchModal">
+        <div class="search-modal-container">
+            <div class="search-modal-header">
+                <button class="search-back-btn" onclick="toggleSearch()"><i class="fas fa-arrow-left"></i><span>VOLTAR</span></button>
+                <div class="search-brand"><span class="brand-connecta">CONECTA</span><span class="brand-city">Xexéu</span></div>
+                <div style="width: 80px;"></div>
+            </div>
+            <div class="search-input-container">
+                <div class="search-input-wrapper-full">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="searchInput" placeholder="Busque um serviço ou informação" autocomplete="off">
+                </div>
+            </div>
+            <div class="search-suggestions" id="searchSuggestions">
+                <div class="suggestion-card" onclick="selectSuggestion('Serviços públicos')">
+                    <div class="suggestion-icon bg-blue-50"><i class="fas fa-city text-blue-600"></i></div>
+                    <div class="suggestion-content"><h3 class="suggestion-title">Serviços públicos e eventos</h3><p class="suggestion-text">Solicite troca de lâmpada, veja eventos ou renove o cadÚnico.</p></div>
+                </div>
+                <div class="suggestion-card" onclick="selectSuggestion('Preparação física')">
+                    <div class="suggestion-icon bg-green-50"><i class="fas fa-dumbbell text-green-600"></i></div>
+                    <div class="suggestion-content"><h3 class="suggestion-title">Preparação física e dieta</h3><p class="suggestion-text">Treinos personalizados e receitas saudáveis.</p></div>
+                </div>
+                <div class="suggestion-card" onclick="selectSuggestion('Turismo')">
+                    <div class="suggestion-icon bg-amber-50"><i class="fas fa-umbrella-beach text-amber-600"></i></div>
+                    <div class="suggestion-content"><h3 class="suggestion-title">Dicas de Turismo</h3><p class="suggestion-text">O que fazer em Xexéu e onde comer.</p></div>
+                </div>
+                <div class="suggestion-card" onclick="selectSuggestion('Oportunidades')">
+                    <div class="suggestion-icon bg-purple-50"><i class="fas fa-briefcase text-purple-600"></i></div>
+                    <div class="suggestion-content"><h3 class="suggestion-title">Oportunidade de Trabalho</h3><p class="suggestion-text">Empregos, cursos e dicas em Xexéu.</p></div>
+                </div>
+            </div>
+            <div class="search-results-container" id="searchResults" style="display: none;"></div>
+        </div>
+    </div>
+
+    <!-- MODAL DO CLIMA DETALHADO -->
+    <div id="weatherModal" class="weather-modal">
+        <div class="weather-modal-content">
+            <div class="weather-modal-header">
+                <h2>Previsão do Tempo</h2>
+                <button class="weather-modal-close" onclick="toggleWeatherModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div id="weatherModalContent"></div>
+        </div>
+    </div>
+
+    <!-- PÁGINA HOME -->
+    <div id="homePage">
+        <header class="fixed-header header-premium">
+            <div class="container mx-auto px-6 flex items-center justify-between w-full">
+                <div class="logo-wrapper">
+                    <img src="https://i.ibb.co/vCSnnWhK/Black-White-Bold-Simple-Initials-Name-Logo-removebg-preview-1.png" alt="Conecta Xexéu" class="logo-super">
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="hidden lg:flex items-center gap-6 mr-6">
+                        <a href="https://transparencia.xexeu.pe.gov.br" target="_blank" rel="noopener noreferrer" class="text-white/80 hover:text-white font-medium transition-colors">Transparência</a>
+                        <a href="#" id="desktopNoticias" class="text-white/80 hover:text-white font-medium transition-colors">Notícias</a>
+                        <a href="https://site.xexeu.pe.gov.br/ouvidoria-municipal/" target="_blank" rel="noopener noreferrer" class="text-white/80 hover:text-white font-medium transition-colors">Ouvidoria</a>
+                    </div>
+                    <button id="menuButton" class="menu-trigger text-white bg-white/10 hover:bg-white/20 w-12 h-12 flex items-center justify-center rounded-full transition-all"><i class="fas fa-bars text-2xl"></i></button>
+                </div>
+            </div>
+        </header>
+
+        <div class="content-wrapper">
+            <section class="banner-principal"><img src="https://i.ibb.co/21nSJKF3/Inscreva-se.jpg" alt="Banner Conecta Xexéu"></section>
+        </div>
+
+        <main class="main-content px-6 py-12 mb-32">
+            <section class="mb-20">
+                <div class="flex items-center gap-4 mb-10">
+                    <div class="w-2 h-10 bg-blue-600 rounded-full"></div>
+                    <h2 class="text-3xl font-black text-gray-800 uppercase tracking-tighter">Destaques de Xexéu</h2>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="highlight-card bg-amber-50 rounded-[2.5rem] p-8 flex flex-col items-center justify-center text-center h-48 cursor-pointer group" data-service="Carteira Estudantil">
+                        <div class="w-16 h-16 bg-amber-100 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-amber-200 transition-colors"><i class="fas fa-id-card text-3xl text-amber-600"></i></div>
+                        <span class="font-bold text-amber-900 text-sm uppercase">Carteira Estudantil</span>
+                    </div>
+                    <div class="highlight-card bg-sky-50 rounded-[2.5rem] p-8 flex flex-col items-center justify-center text-center h-48 cursor-pointer group" data-service="Credpop Xexéu">
+                        <div class="w-16 h-16 bg-sky-100 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-sky-200 transition-colors"><i class="fas fa-hand-holding-usd text-3xl text-sky-600"></i></div>
+                        <span class="font-bold text-sky-900 text-sm uppercase">Credpop Xexéu</span>
+                    </div>
+                    <div class="highlight-card bg-indigo-50 rounded-[2.5rem] p-8 flex flex-col items-center justify-center text-center h-48 cursor-pointer group" data-service="Academia Xexéu">
+                        <div class="w-16 h-16 bg-indigo-100 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-indigo-200 transition-colors"><i class="fas fa-dumbbell text-3xl text-indigo-600"></i></div>
+                        <span class="font-bold text-indigo-900 text-sm uppercase">Academia Xexéu</span>
+                    </div>
+                    <div class="highlight-card bg-orange-50 rounded-[2.5rem] p-8 flex flex-col items-center justify-center text-center h-48 cursor-pointer group" data-service="Saúde Xexéu">
+                        <div class="w-16 h-16 bg-orange-100 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-orange-200 transition-colors"><i class="fas fa-laptop-medical text-3xl text-orange-600"></i></div>
+                        <span class="font-bold text-orange-900 text-sm uppercase">Saúde Xexéu</span>
+                    </div>
+                    <div class="highlight-card bg-emerald-50 rounded-[2.5rem] p-8 flex flex-col items-center justify-center text-center h-48 cursor-pointer group" onclick="window.open('https://2696244.playcode.io/', '_blank')">
+                        <div class="w-16 h-16 bg-emerald-100 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-emerald-200 transition-colors"><i class="fas fa-book text-3xl text-emerald-600"></i></div>
+                        <span class="font-bold text-emerald-900 text-sm uppercase">Biblioteca</span>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <div class="flex items-center gap-4 mb-10">
+                    <div class="w-2 h-10 bg-blue-600 rounded-full"></div>
+                    <h2 class="text-3xl font-black text-gray-800 uppercase tracking-tighter">Serviços de Xexéu</h2>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                    <button class="service-btn bg-white p-6 rounded-2xl flex justify-between items-center shadow-md border border-gray-100 hover:border-blue-500 hover:shadow-lg transition-all group text-left" data-service="IPTU Xexéu"><span class="font-bold text-gray-700">IPTU Xexéu</span><i class="fas fa-arrow-right text-gray-300 group-hover:text-blue-500 group-hover:translate-x-2 transition-all"></i></button>
+                    <button class="service-btn bg-white p-6 rounded-2xl flex justify-between items-center shadow-md border border-gray-100 hover:border-blue-500 hover:shadow-lg transition-all group text-left" data-service="Iluminação Pública"><span class="font-bold text-gray-700">Iluminação Pública</span><i class="fas fa-arrow-right text-gray-300 group-hover:text-blue-500 group-hover:translate-x-2 transition-all"></i></button>
+                    <button class="service-btn bg-white p-6 rounded-2xl flex justify-between items-center shadow-md border border-gray-100 hover:border-blue-500 hover:shadow-lg transition-all group text-left" data-service="Poda e Limpeza"><span class="font-bold text-gray-700">Poda e Limpeza</span><i class="fas fa-arrow-right text-gray-300 group-hover:text-blue-500 group-hover:translate-x-2 transition-all"></i></button>
+                    <button class="service-btn bg-white p-6 rounded-2xl flex justify-between items-center shadow-md border border-gray-100 hover:border-blue-500 hover:shadow-lg transition-all group text-left" data-service="Sinalização Urbana"><span class="font-bold text-gray-700">Sinalização Urbana</span><i class="fas fa-arrow-right text-gray-300 group-hover:text-blue-500 group-hover:translate-x-2 transition-all"></i></button>
+                    <button class="service-btn bg-white p-6 rounded-2xl flex justify-between items-center shadow-md border border-gray-100 hover:border-blue-500 hover:shadow-lg transition-all group text-left" data-service="Academia Xexéu"><span class="font-bold text-gray-700">Academia Xexéu</span><i class="fas fa-arrow-right text-gray-300 group-hover:text-blue-500 group-hover:translate-x-2 transition-all"></i></button>
+                    <button class="service-btn bg-white p-6 rounded-2xl flex justify-between items-center shadow-md border border-gray-100 hover:border-blue-500 hover:shadow-lg transition-all group text-left" data-service="Saúde Xexéu"><span class="font-bold text-gray-700">Saúde Xexéu</span><i class="fas fa-arrow-right text-gray-300 group-hover:text-blue-500 group-hover:translate-x-2 transition-all"></i></button>
+                </div>
+            </section>
+        </main>
+
+        <!-- NAVEGAÇÃO INFERIOR -->
+        <div class="bottom-nav-container">
+            <nav class="bottom-nav">
+                <button class="nav-item active" data-tab="home"><i class="fas fa-home"></i><span>Início</span></button>
+                <button class="nav-item" data-tab="events" id="agendaNavBtn"><i class="far fa-calendar-check"></i><span>Agenda</span></button>
+                <div class="nav-item-fab"><button class="nav-fab-btn" id="searchFab"><i class="fas fa-search"></i></button></div>
+                <button class="nav-item" onclick="toggleMap()"><i class="fas fa-map-marked-alt"></i><span>Mapa</span></button>
+                <button class="nav-item" data-tab="profile" id="profileNavBtn"><i class="far fa-user-circle"></i><span>Perfil</span></button>
+            </nav>
+        </div>
+    </div>
+
+    <!-- PÁGINA DE LOGIN/CADASTRO -->
+    <div id="authPage" class="auth-page" style="display: none;">
+        <div class="auth-page-container">
+            <div class="auth-welcome"><h2>Bem-Vindo!</h2><p>Acesse sua conta ou crie uma nova</p></div>
+            <div class="auth-page-logo"><img src="https://i.ibb.co/vCSnnWhK/Black-White-Bold-Simple-Initials-Name-Logo-removebg-preview-1.png" alt="Conecta Xexéu"></div>
+            <div class="auth-page-tabs">
+                <button class="auth-page-tab active" onclick="switchAuthPageTab('login')">Entrar</button>
+                <button class="auth-page-tab" onclick="switchAuthPageTab('register')">Cadastrar</button>
+            </div>
+            <form id="loginPageForm" class="auth-page-form" onsubmit="handleLoginPage(event)">
+                <div class="form-group"><label class="form-label"><i class="fas fa-id-card"></i>CPF</label><input type="text" id="loginPageCpf" class="form-input" placeholder="000.000.000-00" maxlength="14" oninput="formatCPF(this)" required></div>
+                <div class="form-group"><label class="form-label"><i class="fas fa-lock"></i>Senha</label><div class="password-input-wrapper"><input type="password" id="loginPagePassword" class="form-input" placeholder="••••••••" required><button type="button" class="password-toggle" onclick="togglePassword('loginPagePassword', this)"><i class="fas fa-eye"></i></button></div></div>
+                <button type="submit" class="auth-submit-btn">Entrar<i class="fas fa-arrow-right"></i></button>
+                <p class="auth-footer-text">Esqueceu sua senha? <a href="#" onclick="showToast('🔐 Recuperação de senha em breve'); return false;">Clique aqui</a></p>
+            </form>
+            <form id="registerPageForm" class="auth-page-form" style="display: none;" onsubmit="handleRegisterPage(event)">
+                <div class="form-group"><label class="form-label"><i class="fas fa-user"></i>Nome Completo</label><input type="text" id="registerPageName" class="form-input" placeholder="Seu nome completo" required></div>
+                <div class="form-group"><label class="form-label"><i class="fas fa-id-card"></i>CPF</label><input type="text" id="registerPageCpf" class="form-input" placeholder="000.000.000-00" maxlength="14" oninput="formatCPF(this)" required></div>
+                <div class="form-group"><label class="form-label"><i class="fas fa-lock"></i>Senha</label><div class="password-input-wrapper"><input type="password" id="registerPagePassword" class="form-input" placeholder="Mínimo 6 caracteres" required><button type="button" class="password-toggle" onclick="togglePassword('registerPagePassword', this)"><i class="fas fa-eye"></i></button></div></div>
+                <div class="form-group"><label class="form-label"><i class="fas fa-check-circle"></i>Confirmar Senha</label><div class="password-input-wrapper"><input type="password" id="registerPageConfirmPassword" class="form-input" placeholder="Confirme sua senha" required><button type="button" class="password-toggle" onclick="togglePassword('registerPageConfirmPassword', this)"><i class="fas fa-eye"></i></button></div></div>
+                <button type="submit" class="auth-submit-btn">Criar Conta<i class="fas fa-user-plus"></i></button>
+                <p class="auth-footer-text">Ao se cadastrar, você concorda com nossos <a href="#" onclick="showToast('📜 Termos de uso em breve'); return false;">Termos de Uso</a></p>
+            </form>
+            <div class="back-to-home"><a href="#" onclick="showHomePage(); return false;"><i class="fas fa-arrow-left"></i>Voltar para o início</a></div>
+        </div>
+    </div>
+
+    <!-- PÁGINA DE AGENDA -->
+    <div id="agendaPage" class="agenda-page" style="display: none;">
+        <div class="agenda-header">
+            <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 20px;">
+                <button onclick="showHomePage()" style="background: rgba(255,255,255,0.2); border: none; color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer;"><i class="fas fa-arrow-left"></i></button>
+                <h1 style="margin: 0;">Agenda de Eventos</h1>
+            </div>
+            <p>Fique por dentro de tudo que acontece em Xexéu</p>
+        </div>
+        <div class="agenda-filters">
+            <button class="filter-btn active" onclick="filterEvents('todos')">Todos</button>
+            <button class="filter-btn" onclick="filterEvents('cultural')">Cultura</button>
+            <button class="filter-btn" onclick="filterEvents('esportivo')">Esporte</button>
+            <button class="filter-btn" onclick="filterEvents('religioso')">Religião</button>
+        </div>
+        <div class="events-list" id="eventsList"></div>
+        <div class="bottom-nav-container">
+            <nav class="bottom-nav">
+                <button class="nav-item" onclick="showHomePage()"><i class="fas fa-home"></i><span>Início</span></button>
+                <button class="nav-item active"><i class="far fa-calendar-check"></i><span>Agenda</span></button>
+                <div class="nav-item-fab"><button class="nav-fab-btn" onclick="toggleSearch()"><i class="fas fa-search"></i></button></div>
+                <button class="nav-item" onclick="toggleMap()"><i class="fas fa-map-marked-alt"></i><span>Mapa</span></button>
+                <button class="nav-item" onclick="handleProfileClick()"><i class="far fa-user-circle"></i><span>Perfil</span></button>
+            </nav>
+        </div>
+    </div>
+
+    <!-- MODAL DO MAPA -->
+    <div id="mapModal">
+        <div>
+            <div class="map-controls"><button class="map-control-btn" onclick="toggleMap()"><i class="fas fa-times"></i></button></div>
+            <iframe src="https://maps.google.com/maps?q=Xexeu%20Pernambuco&t=k&z=16&ie=UTF8&iwloc=&output=embed" allowfullscreen loading="lazy"></iframe>
+            <div class="map-info"><i class="fas fa-satellite mr-2"></i>Xexéu - PE | Vista de Satélite</div>
+        </div>
+    </div>
+
+    <!-- CARTÃO DE CLIMA FLUTUANTE -->
+    <div class="weather-floating" id="weatherFloating" onclick="toggleWeatherModal()">
+        <div class="weather-wrapper">
+            <div class="weather-expanded" id="weatherExpanded">
+                <div class="detail-row"><span class="detail-label">Umidade</span><span class="detail-value" id="expHumidity">--%</span></div>
+                <div class="detail-row"><span class="detail-label">Vento</span><span class="detail-value" id="expWind">-- km/h</span></div>
+                <div class="detail-row"><span class="detail-label">Sensação</span><span class="detail-value" id="expFeels">--°</span></div>
+                <div class="detail-row"><span class="detail-label">Máx / Mín</span><span class="detail-value" id="expHL">--° / --°</span></div>
+                <div class="weather-status-bar status-good" id="weatherStatus">SAUDÁVEL</div>
+            </div>
+            <div class="weather-main-card">
+                <span class="weather-icon-animated" id="weatherIcon">☀️</span>
+                <div class="weather-temp-info"><div class="weather-temp-big" id="floatingTemp">--°</div><div class="weather-city-sm">Xexéu, PE</div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div id="toastMessage" class="toast-message">🚀 Conecta Xexéu - Em breve</div>
+
+    <script src="script.js"></script>
+</body>
+</html>
