@@ -1,0 +1,196 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Conecta Xexéu - Serviços da Cidade</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="menu-overlay" id="menuOverlay"></div>
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="close-menu" id="closeMenu"><i class="fas fa-times"></i></div>
+        <div class="flex flex-col mt-4">
+            <div class="menu-item"><a href="https://transparencia.xexeu.pe.gov.br" target="_blank"><i class="fas fa-chart-line w-5"></i> Transparência</a></div>
+            <div class="menu-item"><span id="mobileNoticias"><i class="fas fa-newspaper w-5"></i> Notícias</span></div>
+            <div class="menu-item"><a href="https://site.xexeu.pe.gov.br/ouvidoria-municipal/" target="_blank"><i class="fas fa-headset w-5"></i> Ouvidoria</a></div>
+            <div class="menu-item"><span id="mobilePerfil"><i class="fas fa-user-circle w-5"></i> Meu Perfil</span></div>
+            <div class="menu-item"><span id="mobileConfig"><i class="fas fa-cog w-5"></i> Configurações</span></div>
+        </div>
+    </div>
+
+    <div id="searchModal">
+        <div class="p-5 max-w-2xl mx-auto">
+            <div class="flex items-center justify-between py-5 border-b mb-6"><button onclick="toggleSearch()" class="flex items-center gap-2 text-blue-600 font-semibold"><i class="fas fa-arrow-left"></i>VOLTAR</button><div class="flex gap-2"><span class="text-xl font-black">CONECTA</span><span class="text-xl font-bold text-blue-600">Xexéu</span></div><div style="width:80px;"></div></div>
+            <div class="relative mb-8"><i class="fas fa-search absolute left-5 top-1/2 -translate-y-1/2 text-gray-400"></i><input type="text" id="searchInput" placeholder="Busque um serviço ou informação" class="w-full py-4 pl-14 pr-5 border-2 border-gray-200 rounded-2xl text-base outline-none focus:border-blue-600"></div>
+            <div id="searchSuggestions" class="flex flex-col gap-4"></div>
+            <div id="searchResults" style="display:none;"></div>
+        </div>
+    </div>
+
+    <div id="weatherModal" class="weather-modal"><div class="weather-modal-content"><div class="flex justify-between items-center mb-6"><h2 class="text-2xl font-extrabold">Previsão do Tempo</h2><button onclick="toggleWeatherModal()" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center"><i class="fas fa-times"></i></button></div><div id="weatherModalContent"></div></div></div>
+
+    <div id="policyModal" class="policy-modal"><div class="policy-modal-content" id="policyContent"></div></div>
+
+    <div id="homePage">
+        <header class="fixed-header header-premium">
+            <div class="container mx-auto px-6 flex items-center justify-between w-full">
+                <div class="logo-wrapper"><img src="https://i.ibb.co/vCSnnWhK/Black-White-Bold-Simple-Initials-Name-Logo-removebg-preview-1.png" alt="Conecta Xexéu" class="logo-super"></div>
+                <div class="flex items-center gap-4">
+                    <div class="hidden lg:flex items-center gap-6 mr-6">
+                        <a href="https://transparencia.xexeu.pe.gov.br" target="_blank" class="text-white/80 hover:text-white">Transparência</a>
+                        <a href="#" id="desktopNoticias" class="text-white/80 hover:text-white">Notícias</a>
+                        <a href="https://site.xexeu.pe.gov.br/ouvidoria-municipal/" target="_blank" class="text-white/80 hover:text-white">Ouvidoria</a>
+                    </div>
+                    <button id="menuButton" class="text-white bg-white/10 w-12 h-12 rounded-full"><i class="fas fa-bars text-2xl"></i></button>
+                </div>
+            </div>
+        </header>
+        <div class="content-wrapper"><section class="banner-principal"><img src="https://i.ibb.co/Zz9L1Myq/Whats-App-Image-2026-02-22-at-17-58-21.jpg" alt="Banner"></section></div>
+        <main class="main-content px-6 py-12 mb-32">
+            <section class="mb-20">
+                <div class="flex items-center gap-4 mb-10"><div class="w-2 h-10 bg-blue-600 rounded-full"></div><h2 class="text-3xl font-black text-gray-800 uppercase">Destaques</h2></div>
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="highlight-card card-amber" data-service="Carteira Estudantil"><div class="highlight-icon-wrapper"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M8 10h8M8 14h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="17" cy="10" r="1.5" fill="currentColor"/></svg></div><span class="highlight-label">Carteira Estudantil</span></div>
+                    <div class="highlight-card card-sky" data-service="Credpop Xexéu"><div class="highlight-icon-wrapper"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/><path d="M8 12h8M12 8v8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div><span class="highlight-label">Credpop Xexéu</span></div>
+                    <div class="highlight-card card-indigo" data-service="Academia Xexéu"><div class="highlight-icon-wrapper"><svg viewBox="0 0 24 24" fill="none"><path d="M6 8h3l3 3-3 3H6V8zM18 8h-3l-3 3 3 3h3V8z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></div><span class="highlight-label">Academia Xexéu</span></div>
+                    <div class="highlight-card card-orange" data-service="Saúde Xexéu"><div class="highlight-icon-wrapper"><svg viewBox="0 0 24 24" fill="none"><rect x="4" y="6" width="16" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M12 10v4M10 12h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div><span class="highlight-label">Saúde Xexéu</span></div>
+                    <div class="highlight-card card-emerald" onclick="window.open('https://2696244.playcode.io/','_blank')"><div class="highlight-icon-wrapper"><svg viewBox="0 0 24 24" fill="none"><path d="M4 4h16v16H4V4zM8 8h8M8 12h8M8 16h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M2 4v16M22 4v16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div><span class="highlight-label">Biblioteca</span></div>
+                </div>
+            </section>
+            <section>
+                <div class="flex items-center gap-4 mb-10"><div class="w-2 h-10 bg-blue-600 rounded-full"></div><h2 class="text-3xl font-black text-gray-800 uppercase">Serviços de Xexéu</h2></div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                    <button class="bg-white p-6 rounded-2xl flex justify-between items-center shadow border border-gray-100 hover:border-blue-500" data-service="IPTU Xexéu"><span class="font-bold">IPTU Xexéu</span><i class="fas fa-arrow-right text-gray-300"></i></button>
+                    <button class="bg-white p-6 rounded-2xl flex justify-between items-center shadow border border-gray-100 hover:border-blue-500" data-service="Iluminação Pública"><span class="font-bold">Iluminação Pública</span><i class="fas fa-arrow-right text-gray-300"></i></button>
+                    <button class="bg-white p-6 rounded-2xl flex justify-between items-center shadow border border-gray-100 hover:border-blue-500" data-service="Poda e Limpeza"><span class="font-bold">Poda e Limpeza</span><i class="fas fa-arrow-right text-gray-300"></i></button>
+                    <button class="bg-white p-6 rounded-2xl flex justify-between items-center shadow border border-gray-100 hover:border-blue-500" data-service="Sinalização Urbana"><span class="font-bold">Sinalização Urbana</span><i class="fas fa-arrow-right text-gray-300"></i></button>
+                    <button class="bg-white p-6 rounded-2xl flex justify-between items-center shadow border border-gray-100 hover:border-blue-500" data-service="Academia Xexéu"><span class="font-bold">Academia Xexéu</span><i class="fas fa-arrow-right text-gray-300"></i></button>
+                    <button class="bg-white p-6 rounded-2xl flex justify-between items-center shadow border border-gray-100 hover:border-blue-500" data-service="Saúde Xexéu"><span class="font-bold">Saúde Xexéu</span><i class="fas fa-arrow-right text-gray-300"></i></button>
+                </div>
+            </section>
+        </main>
+        <div class="bottom-nav-container"><nav class="bottom-nav">
+            <button class="nav-item active" data-tab="home"><i class="fas fa-home"></i><span>Início</span></button>
+            <button class="nav-item" data-tab="events" id="agendaNavBtn"><i class="far fa-calendar-check"></i><span>Agenda</span></button>
+            <div class="nav-item-fab"><button class="nav-fab-btn" id="searchFab"><i class="fas fa-search"></i></button></div>
+            <button class="nav-item" onclick="toggleMap()"><i class="fas fa-map-marked-alt"></i><span>Mapa</span></button>
+            <button class="nav-item" data-tab="profile" id="profileNavBtn"><i class="far fa-user-circle"></i><span>Perfil</span></button>
+        </nav></div>
+    </div>
+
+    <!-- PÁGINA DE CONFIGURAÇÕES -->
+    <div id="settingsPage" class="settings-page" style="display:none;">
+        <div class="settings-header">
+            <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px;">
+                <button onclick="showHomePage()" style="background:rgba(255,255,255,0.2);border:none;color:white;width:40px;height:40px;border-radius:50%;cursor:pointer;"><i class="fas fa-arrow-left"></i></button>
+                <h1>Configurações</h1>
+            </div>
+            <p style="opacity:0.9;font-size:14px;">Gerencie suas preferências e permissões</p>
+        </div>
+
+        <!-- Permissões -->
+        <div class="settings-section">
+            <h3><i class="fas fa-shield-alt text-blue-600"></i> Permissões</h3>
+            
+            <!-- GPS - AGORA PERMITE ATIVAR E DESATIVAR -->
+            <div class="settings-item">
+                <div class="settings-item-info" onclick="toggleGPSSwitch()">
+                    <div class="settings-item-title">Localização (GPS)</div>
+                    <div class="settings-item-desc" id="gpsStatus">Toque para ativar/desativar</div>
+                </div>
+                <div class="toggle-switch" onclick="toggleGPSSwitch()">
+                    <input type="checkbox" id="gpsToggle" onchange="handleGPSToggle(this)">
+                    <span class="toggle-slider"></span>
+                </div>
+            </div>
+
+            <!-- Notificações -->
+            <div class="settings-item">
+                <div class="settings-item-info" onclick="toggleNotifSwitch()">
+                    <div class="settings-item-title">Notificações</div>
+                    <div class="settings-item-desc" id="notifStatus">Toque para ativar/desativar</div>
+                </div>
+                <div class="toggle-switch" onclick="toggleNotifSwitch()">
+                    <input type="checkbox" id="notifToggle" onchange="handleNotifToggle(this)">
+                    <span class="toggle-slider"></span>
+                </div>
+            </div>
+
+            <div class="settings-item">
+                <div class="settings-item-info"><div class="settings-item-title">Cookies Essenciais</div><div class="settings-item-desc">Sempre ativos</div></div>
+                <div class="toggle-switch"><input type="checkbox" checked disabled><span class="toggle-slider" style="opacity:0.5;"></span></div>
+            </div>
+        </div>
+
+        <!-- Políticas -->
+        <div class="settings-section">
+            <h3><i class="fas fa-file-contract text-blue-600"></i> Políticas e Termos</h3>
+            <div class="settings-item" onclick="showPolicy('privacy')"><div class="settings-item-info"><div class="settings-item-title">Política de Privacidade</div><div class="settings-item-desc">Como tratamos seus dados</div></div><i class="fas fa-chevron-right text-gray-400"></i></div>
+            <div class="settings-item" onclick="showPolicy('cookies')"><div class="settings-item-info"><div class="settings-item-title">Política de Cookies</div><div class="settings-item-desc">Como usamos cookies</div></div><i class="fas fa-chevron-right text-gray-400"></i></div>
+            <div class="settings-item" onclick="showPolicy('terms')"><div class="settings-item-info"><div class="settings-item-title">Termos de Uso</div><div class="settings-item-desc">Regras de utilização</div></div><i class="fas fa-chevron-right text-gray-400"></i></div>
+        </div>
+
+        <!-- Informações -->
+        <div class="settings-section">
+            <h3><i class="fas fa-info-circle text-blue-600"></i> Informações Importantes</h3>
+            <div class="settings-item" onclick="showPolicy('about')"><div class="settings-item-info"><div class="settings-item-title">Sobre o Conecta Xexéu</div><div class="settings-item-desc">Versão 1.0.0</div></div><i class="fas fa-chevron-right text-gray-400"></i></div>
+            <div class="settings-item" onclick="showPolicy('contact')"><div class="settings-item-info"><div class="settings-item-title">Contato</div><div class="settings-item-desc">Prefeitura Municipal de Xexéu</div></div><i class="fas fa-chevron-right text-gray-400"></i></div>
+            <div class="settings-item" onclick="showPolicy('data')"><div class="settings-item-info"><div class="settings-item-title">Seus Dados</div><div class="settings-item-desc">Exportar ou excluir dados</div></div><i class="fas fa-chevron-right text-gray-400"></i></div>
+        </div>
+
+        <div class="bottom-nav-container"><nav class="bottom-nav">
+            <button class="nav-item" onclick="showHomePage()"><i class="fas fa-home"></i><span>Início</span></button>
+            <button class="nav-item" onclick="showAgendaPage()"><i class="far fa-calendar-check"></i><span>Agenda</span></button>
+            <div class="nav-item-fab"><button class="nav-fab-btn" onclick="toggleSearch()"><i class="fas fa-search"></i></button></div>
+            <button class="nav-item" onclick="toggleMap()"><i class="fas fa-map-marked-alt"></i><span>Mapa</span></button>
+            <button class="nav-item active"><i class="fas fa-cog"></i><span>Config</span></button>
+        </nav></div>
+    </div>
+
+    <div id="agendaPage" class="agenda-page" style="display:none;">
+        <div class="agenda-header"><div style="display:flex;align-items:center;gap:16px;"><button onclick="showHomePage()" style="background:rgba(255,255,255,0.2);border:none;color:white;width:40px;height:40px;border-radius:50%;cursor:pointer;"><i class="fas fa-arrow-left"></i></button><h1>Agenda de Eventos</h1></div></div>
+        <div class="flex gap-3 p-5 -mt-5"><button class="filter-btn active" onclick="filterEvents('todos')">Todos</button><button class="filter-btn" onclick="filterEvents('cultural')">Cultura</button><button class="filter-btn" onclick="filterEvents('esportivo')">Esporte</button><button class="filter-btn" onclick="filterEvents('religioso')">Religião</button></div>
+        <div class="p-5 pb-32" id="eventsList"></div>
+        <div class="bottom-nav-container"><nav class="bottom-nav">
+            <button class="nav-item" onclick="showHomePage()"><i class="fas fa-home"></i><span>Início</span></button>
+            <button class="nav-item active"><i class="far fa-calendar-check"></i><span>Agenda</span></button>
+            <div class="nav-item-fab"><button class="nav-fab-btn" onclick="toggleSearch()"><i class="fas fa-search"></i></button></div>
+            <button class="nav-item" onclick="toggleMap()"><i class="fas fa-map-marked-alt"></i><span>Mapa</span></button>
+            <button class="nav-item" onclick="handleProfileClick()"><i class="far fa-user-circle"></i><span>Perfil</span></button>
+        </nav></div>
+    </div>
+
+    <div id="authPage" class="auth-page" style="display:none;">
+        <div class="auth-page-container">
+            <div class="text-center mb-6"><h2>Bem-Vindo!</h2><p class="text-gray-500">Acesse sua conta ou crie uma nova</p></div>
+            <div class="text-center mb-6"><img src="https://i.ibb.co/vCSnnWhK/Black-White-Bold-Simple-Initials-Name-Logo-removebg-preview-1.png" alt="Logo" class="h-20"></div>
+            <div class="auth-page-tabs"><button class="auth-page-tab active" onclick="switchAuthPageTab('login')">Entrar</button><button class="auth-page-tab" onclick="switchAuthPageTab('register')">Cadastrar</button></div>
+            <form id="loginPageForm" onsubmit="handleLoginPage(event)"><div class="mb-5"><label class="flex items-center gap-2 text-sm font-semibold mb-2"><i class="fas fa-id-card text-blue-600"></i>CPF</label><input type="text" id="loginPageCpf" class="form-input" placeholder="000.000.000-00" maxlength="14" oninput="formatCPF(this)" required></div><div class="mb-5"><label class="flex items-center gap-2 text-sm font-semibold mb-2"><i class="fas fa-lock text-blue-600"></i>Senha</label><div class="relative"><input type="password" id="loginPagePassword" class="form-input" placeholder="••••••••" required><button type="button" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400" onclick="togglePassword('loginPagePassword',this)"><i class="fas fa-eye"></i></button></div></div><button type="submit" class="auth-submit-btn">Entrar</button></form>
+            <form id="registerPageForm" style="display:none;" onsubmit="handleRegisterPage(event)"><div class="mb-5"><label class="flex items-center gap-2 text-sm font-semibold mb-2"><i class="fas fa-user text-blue-600"></i>Nome</label><input type="text" id="registerPageName" class="form-input" placeholder="Seu nome" required></div><div class="mb-5"><label class="flex items-center gap-2 text-sm font-semibold mb-2"><i class="fas fa-id-card text-blue-600"></i>CPF</label><input type="text" id="registerPageCpf" class="form-input" placeholder="000.000.000-00" maxlength="14" oninput="formatCPF(this)" required></div><div class="mb-5"><label class="flex items-center gap-2 text-sm font-semibold mb-2"><i class="fas fa-lock text-blue-600"></i>Senha</label><div class="relative"><input type="password" id="registerPagePassword" class="form-input" placeholder="Mínimo 6 caracteres" required><button type="button" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400" onclick="togglePassword('registerPagePassword',this)"><i class="fas fa-eye"></i></button></div></div><div class="mb-5"><label class="flex items-center gap-2 text-sm font-semibold mb-2"><i class="fas fa-check-circle text-blue-600"></i>Confirmar</label><div class="relative"><input type="password" id="registerPageConfirmPassword" class="form-input" placeholder="Confirme" required><button type="button" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400" onclick="togglePassword('registerPageConfirmPassword',this)"><i class="fas fa-eye"></i></button></div></div><button type="submit" class="auth-submit-btn">Criar Conta</button></form>
+            <div class="text-center mt-6"><a href="#" onclick="showHomePage();return false;" class="text-gray-500 hover:text-blue-600"><i class="fas fa-arrow-left"></i> Voltar</a></div>
+        </div>
+    </div>
+
+    <div id="mapModal"><div><div style="position:absolute;top:20px;right:20px;z-index:1001;"><button onclick="toggleMap()" style="width:50px;height:50px;border-radius:50%;background:rgba(0,0,0,0.7);border:2px solid rgba(255,255,255,0.3);color:white;font-size:20px;cursor:pointer;"><i class="fas fa-times"></i></button></div><iframe src="https://maps.google.com/maps?q=Xexeu%20Pernambuco&t=k&z=16&ie=UTF8&iwloc=&output=embed" style="width:100%;height:100vh;border:none;"></iframe></div></div>
+
+    <div class="weather-floating" id="weatherFloating" onclick="toggleWeatherModal()">
+        <div class="weather-wrapper">
+            <div class="weather-expanded"><div style="display:flex;justify-content:space-between;padding:6px 0;font-size:11px;border-bottom:1px solid rgba(255,255,255,0.1);"><span style="opacity:0.7;">Umidade</span><span id="expHumidity">--%</span></div><div style="display:flex;justify-content:space-between;padding:6px 0;font-size:11px;border-bottom:1px solid rgba(255,255,255,0.1);"><span style="opacity:0.7;">Vento</span><span id="expWind">-- km/h</span></div><div style="display:flex;justify-content:space-between;padding:6px 0;font-size:11px;border-bottom:1px solid rgba(255,255,255,0.1);"><span style="opacity:0.7;">Sensação</span><span id="expFeels">--°</span></div><div style="display:flex;justify-content:space-between;padding:6px 0;font-size:11px;"><span style="opacity:0.7;">Máx/Mín</span><span id="expHL">--° / --°</span></div><div class="weather-status-bar status-good" id="weatherStatus" style="margin-top:8px;padding:6px;border-radius:12px;text-align:center;font-size:10px;font-weight:700;">SAUDÁVEL</div></div>
+            <div class="weather-main-card"><span class="weather-icon-animated" id="weatherIcon">☀️</span><div style="text-align:right;"><div class="weather-temp-big" id="floatingTemp">--°</div><div style="font-size:10px;opacity:0.8;">Xexéu, PE</div></div></div>
+        </div>
+    </div>
+
+    <div id="toastMessage" class="toast-message">🚀 Conecta Xexéu - Em breve</div>
+
+    <!-- Scripts -->
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
